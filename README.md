@@ -1,1 +1,1 @@
-# webpack4-react-basic-ts
+# webpack5-react-basic-ts
