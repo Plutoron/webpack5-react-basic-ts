@@ -125,9 +125,6 @@ module.exports = {
   ...
 }
 ```
-npm start  打开 localhost:8080/xxxx.html (和 HtmlwebpackPlugin 的配置相关, 不设置 filename 就是默认 localhost:8080)
-
-这样 我们就可以 *npm start* 本地开发我们的项目了
 
 在src下 添加以下文件看看效果吧
 *src/index.js*
@@ -155,35 +152,76 @@ export default class App extends Component {
 
 #### 添加 babel
 
-安装依赖 *@babel/core @babel/preset-env @babel/preset-react*
+安装依赖 *@babel/core @babel/preset-env @babel/preset-react @bable/preset-typescript*
 ```
-npm install --save-dev @babel/core @babel/preset-env @bable/preset-react
+npm install -dev @babel/core @babel/preset-env @bable/preset-react @bable/preset-typescript
 ```
 
 添加 .babelrc 配置文件
 
 ```
-// targets, useBuiltIns 等选项用于编译出兼容目标环境的代码
-// 其中 useBuiltIns 如果设为 "usage"
-// Babel 会根据实际代码中使用的 ES6/ES7 代码，以及与你指定的 targets，按需引入对应的 polyfill
-// 而无需在代码中直接引入 import '@babel/polyfill'，避免输出的包过大，同时又可以放心使用各种新语法特性。
-// 还需要指定corejs 版本
 {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        {
-          "modules": false,
-          "targets": {
-            "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
-          },
-          "useBuiltIns": "usage",
-          "corejs": 2
-        } 
-      }
-    ],
-    "@babel/preset-react"
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript"
   ]
+}
+```
+
+### 添加 babel-loader
+
+```
+module.exports = {
+  ...,
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ]
+  },
+  ...
+}
+```
+
+npm start  打开 localhost:8080/xxxx.html (和 HtmlwebpackPlugin 的配置相关, 不设置 filename 就是默认 localhost:8080)
+
+这样 我们就可以 *npm start* 本地开发我们的项目了
+
+### class 用 async 要装 
+
+```
+@babel/plugin-proposal-class-properties
+@babel/plugin-transform-runtime
+```
+
+.babelrc
+```
+{
+  ...,
+  "plugins": [
+    [
+      "@babel/plugin-proposal-class-properties", 
+      { 
+        "loose": true 
+      }
+    ],[
+      "@babel/plugin-transform-runtime",
+      {
+        "absoluteRuntime": false,
+        "corejs": false,
+        "helpers": true,
+        "regenerator": true,
+        "useESModules": false
+      }
+    ]
+  ],
+  ...
 }
 ```
