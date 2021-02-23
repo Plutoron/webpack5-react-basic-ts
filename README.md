@@ -118,7 +118,7 @@ module.exports = {
     historyApiFallback: true,
     contentBase: path.join(__dirname, './dist'),
     open: false,
-    hot: true,
+    hot: true, // 开启true webpack 会判断 plugin 自己添加 HotModuleReplacementPlugin
     quiet: true,
     port: 8080,
   },
@@ -225,3 +225,14 @@ npm start  打开 localhost:8080/xxxx.html (和 HtmlwebpackPlugin 的配置相�
   ...
 }
 ```
+
+#### 加样式 要 styles-loader & css-loader
+
+
+style-loader 是通过一个JS脚本创建一个style标签，里面包含一些样式
+css-loader 将 css 转换为 js 对象
+
+
+#### 添加 打包时 抽离 css 文件 的 plugin
+
+`npm install --dev mini-css-extract-plugin`

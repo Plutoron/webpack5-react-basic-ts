@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { aaa } from './test'
+import './index.css'
 
 export interface Props {
   a?: string
@@ -16,7 +17,7 @@ export default class App extends Component<Props> {
     } = this.props
 
     return (
-      <div>
+      <div className="test">
         test 
 
         { aaa.a }
