@@ -37,14 +37,18 @@ module.exports = (env, argv) => {
           test: /\.css?$/,
           use: [
             isDEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-            'style-loader',
             'css-loader',
           ]
         }
       ]
     },
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js' ]
+      extensions: [ '.tsx', '.ts', '.js' ],
+      alias: {
+        '@pages': path.resolve(__dirname, 'src/pages'),
+        '@components': path.resolve(__dirname, 'src/components'),
+        '@util': path.resolve(__dirname, 'src/util'),
+      }
     },
     plugins: [
       ...(
@@ -59,7 +63,7 @@ module.exports = (env, argv) => {
       ), 
       new HtmlWebpackPlugin({
         title: 'title 参数 生成的html模板的title。但指定了 template 后 该参数无效！！！',
-        filename: 'xxxx.html',   // build后html文件名 localhost:8080/xxxx.html
+        // filename: 'xxxx.html',   // build后html文件名 localhost:8080/xxxx.html
         template: 'template/index.html'  // 入口html文件模板，不指定的话，会默认生成 一个html模版
       }),
     ]
